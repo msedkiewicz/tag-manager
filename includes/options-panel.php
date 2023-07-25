@@ -24,13 +24,28 @@ function tm_settings_page() {
         return;
     }
 
-    // Rest of the settings page code (unchanged)
-    if (isset($_POST['your_plugin_script'])) {
-        update_option('your_plugin_script', $_POST['your_plugin_script']);
-        echo '<div class="notice notice-success"><p>Zmiany zostały zapisane!</p></div>';
+    // Save the JavaScript tag to a custom post type
+    if (isset($_POST['tm_javascript_tag'])) {
+        $script = your_plugin_sanitize_script($_POST['tm_javascript_tag']);
+        if (!empty($script)) {
+            // Create a new post with 'tag' post type
+            $post_args = array(
+                'post_title' => 'Custom JavaScript Tag',
+                'post_content' => $script,
+                'post_status' => 'publish',
+                'post_type' => 'tag'
+            );
+            $post_id = wp_insert_post($post_args);
+            if (!is_wp_error($post_id)) {
+                echo '<div class="notice notice-success"><p>Tag added successfully!</p></div>';
+            } else {
+                echo '<div class="notice notice-error"><p>Error adding the tag. Please try again.</p></div>';
+            }
+        }
     }
 
-    // Display the settings form
+    // Rest of the settings page code (unchanged)
+    // ...
     ?>
     <div class="wrap">
         <h1>Ustawienia</h1>
@@ -40,10 +55,10 @@ function tm_settings_page() {
             wp_nonce_field('your_plugin_settings_nonce', 'your_plugin_settings_nonce');
             ?>
 
-            <label for="your_plugin_script">Dodaj skrypt:</label><br>
-            <textarea name="your_plugin_script" id="your_plugin_script" rows="6" cols="60"><?php echo esc_textarea(get_option('your_plugin_script')); ?></textarea><br>
+            <label for="tm_javascript_tag">Dodaj tag JavaScript:</label><br>
+            <textarea name="tm_javascript_tag" id="tm_javascript_tag" rows="6" cols="60"></textarea><br>
 
-            <input type="submit" name="submit" value="Save Script" class="button-primary">
+            <input type="submit" name="submit" value="Add Tag" class="button-primary">
         </form>
     </div>
     <?php
@@ -56,9 +71,6 @@ function your_plugin_execute_script_shortcode($atts, $content = null) {
     eval('?>' . do_shortcode($content));
     return ob_get_clean();
 }
-
-
-// Add the admin settings page (same as before)
 
 // Validate and sanitize the script content
 function your_plugin_sanitize_script($script) {
