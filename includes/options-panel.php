@@ -100,4 +100,17 @@ function your_plugin_inject_script() {
         echo do_shortcode('[execute_script]' . $script . '[/execute_script]') . PHP_EOL;
         echo '</script>' . PHP_EOL;
     }
+
+    // Display JavaScript tags for the current post/page
+    global $post;
+    if ($post) {
+        $post_id = $post->ID;
+        $javascript_tags = tm_get_javascript_tags($post_id);
+        if (!empty($javascript_tags)) {
+            echo '<!-- Custom JavaScript Tags for Post/Page -->' . PHP_EOL;
+            echo '<script type="text/javascript">' . PHP_EOL;
+            echo $javascript_tags . PHP_EOL;
+            echo '</script>' . PHP_EOL;
+        }
+    }
 }
