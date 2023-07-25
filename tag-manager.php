@@ -26,7 +26,10 @@ if( !class_exists('TagManagerMsedkiewicz')) {
 
         public function initialize(){
             include_once TAG_MANAGER_PATH . 'includes/utilities.php';
+
             include_once TAG_MANAGER_PATH . 'includes/cpt.php';
+
+            include_once TAG_MANAGER_PATH . 'includes/options-panel.php';
         }
     }
 
