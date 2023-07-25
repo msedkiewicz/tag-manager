@@ -1,22 +1,23 @@
 <?php
 
 // Add the admin settings page
-add_action('admin_menu', 'your_plugin_add_menu_item');
-function your_plugin_add_menu_item() {
+add_action('admin_menu', 'tm_add_menu_item');
+function tm_add_menu_item() {
     // Allow access only to administrators (use 'manage_options' capability)
     if (current_user_can('manage_options')) {
         add_menu_page(
-            'Your Plugin Settings',
-            'Your Plugin',
+            'Ustawienia - Marketing Tag Manager',
+            'Marketing Tag Manager',
             'manage_options',
-            'your-plugin-settings',
-            'your_plugin_settings_page'
+            'tm-settings',
+            'tm_settings_page',
+            'dashicons-editor-code'
         );
     }
 }
 
 // Render the settings page content (updated version)
-function your_plugin_settings_page() {
+function tm_settings_page() {
     // Allow access only to administrators (use 'manage_options' capability)
     if (!current_user_can('manage_options')) {
         echo '<div class="error"><p>Aby dodać tag, skontaktuj się z administratorem strony.</p></div>';
