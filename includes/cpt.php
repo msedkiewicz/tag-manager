@@ -1,24 +1,23 @@
 <?php
 
 // Register custom post types
-function tm_post_types() {
-    register_post_type('tagmanager', array(
-        'supports' => array('title', 'editor', 'excerpt', ),
-        'rewrite' => array(
-            'slug' => 'blog',
-        ),
-        'public' => true,
-        'has_archive' => true,
-        'show_in_rest' => true,
-        'labels' => array(
-            'name' => 'Posty typu Tag Manager',
-            'add_new_item' => 'Dodaj post',
-            'edit_item' => 'Edytuj post',
-            'all_items' => 'Lista postów',
-            'singular_name' => 'Post typu Tag Manager',
-        ),
-        'menu_icon' => 'dashicons-editor-code',
-    ));
+function tm_custom_post_type() {
+    $labels = array(
+        'name' => 'Tagi',
+        'singular_name' => 'Tag',
+        'menu_name' => 'Tagi',
+        // Add more labels as needed
+    );
+
+    $args = array(
+        'labels' => $labels,
+        'public' => false,
+        'show_ui' => true,
+        'show_in_admin_bar' => true
+        // Add more arguments as needed
+    );
+
+    register_post_type('your_tag_post', $args);
 }
 // Register the custom post type
-add_action('init', 'tm_post_types');
+add_action('init', 'tm_custom_post_type');
